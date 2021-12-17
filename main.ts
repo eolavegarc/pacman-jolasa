@@ -17,13 +17,36 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    basic.pause(500)
-    mamua.ifOnEdgeBounce()
-    if (input.acceleration(Dimension.X) < 200) {
+    if (pacman.isTouching(mamua)) {
+        game.gameOver()
+    }
+    if (pacman.isTouching(janaria)) {
+        game.addScore(1)
+        janaria.delete()
+        janaria = game.createSprite(randint(0, 4), randint(0, 4))
+        janaria.set(LedSpriteProperty.Brightness, 10)
+    }
+})
+basic.forever(function () {
+    if (input.acceleration(Dimension.X) > 200) {
         basic.pause(200)
-        mamua.move(1)
+        pacman.move(1)
     }
     if (input.acceleration(Dimension.X) < -200) {
-        mamua.move(1)
+        pacman.move(-1)
+        basic.pause(200)
     }
+    if (input.acceleration(Dimension.Y) > 200) {
+        basic.pause(200)
+        pacman.change(LedSpriteProperty.Y, 1)
+    }
+    if (input.acceleration(Dimension.Y) < -200) {
+        basic.pause(200)
+        pacman.change(LedSpriteProperty.Y, -1)
+    }
+})
+basic.forever(function () {
+    basic.pause(500)
+    mamua.move(1)
+    mamua.ifOnEdgeBounce()
 })
